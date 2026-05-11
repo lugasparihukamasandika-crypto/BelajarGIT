@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
     [Header("Player Data")]
     public PlayerData playerData;
 
-    private float currentHP;
-    private float speed;
+    public float currentHP;
+    public float speed;
 
     private PlayerInput playerInput;
     private Vector2 moveInput;
@@ -16,19 +16,13 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
 
-        // Ambil data dari Scriptable Object
         currentHP = playerData.maxHP;
         speed = playerData.moveSpeed;
     }
 
     void Update()
     {
-        // Player hanya bisa bergerak saat Playing
-        if (GameManager.Instance.currentState != GameState.Playing)
-            return;
-
-        if (playerInput == null)
-            return;
+        if (playerInput == null) return;
 
         moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
 
@@ -50,11 +44,10 @@ public class PlayerController : MonoBehaviour
     {
         currentHP -= dmg;
 
-        Debug.Log("Player HP : " + currentHP);
+        Debug.Log("Player HP: " + currentHP);
 
         if (currentHP <= 0)
         {
-            currentHP = 0;
             GameManager.Instance.GameOver();
         }
     }
